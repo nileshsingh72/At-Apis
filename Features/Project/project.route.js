@@ -1,13 +1,6 @@
-require("dotenv").config();
-const connect = require("./connect.js");
-const Project = require("./schema.js");
 const express = require("express");
-const cors = require("cors");
-const Port = process.env.PORT;
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+const app = express.Router();
+const Project = require("./project.model.js");
 
 app.get("/", async (req, res) => {
   const data = await Project.find();
@@ -16,14 +9,14 @@ app.get("/", async (req, res) => {
 
 app.get("/:id", async (req, res) => {
   const id = req.params.id;
-  const data = await Project.findById(id);
+  const data = await Project.findOne({ _id: id });
   res.send(data);
 });
 
 //post
 app.post("/", async (req, res) => {
   const { projectName, projectDate } = req.body;
-  console.log(req.body);
+  //   console.log(req.body);
   try {
     const p = await Project.findOne({ projectName });
     if (!p) {
@@ -63,7 +56,4 @@ app.patch("/:id", async (req, res) => {
   res.send(updated);
 });
 
-app.listen(8001, async () => {
-  await connect();
-  console.log(`listening on http://localhost:8001`);
-});
+module.exports = app;
