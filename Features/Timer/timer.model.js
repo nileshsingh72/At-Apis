@@ -1,6 +1,6 @@
 const {Schema , model} = require("mongoose");
 
-const TimerSchema = new mongoose.Schema({
+const TimerSchema = new Schema({
 userID : {
     type :Schema.Types.ObjectId,
     ref : 'user',
@@ -17,6 +17,6 @@ userID : {
   totalTime : {type : String , required:true}
 });
 
-const Timer = mongoose.model("timer", TimerSchema);
+const Timer = model("timer", TimerSchema);
 
 module.exports = Timer;

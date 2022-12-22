@@ -1,6 +1,6 @@
 const {Schema , model} = require("mongoose");
 
-const ProjectSchema = new mongoose.Schema({
+const ProjectSchema = new Schema({
   userID : {
     type :Schema.Types.ObjectId,
     ref : 'user',
@@ -10,6 +10,6 @@ const ProjectSchema = new mongoose.Schema({
   projectDate: { type: String, required: true },
 });
 
-const Project = mongoose.model("project", ProjectSchema);
+const Project = model("project", ProjectSchema);
 
 module.exports = Project;
