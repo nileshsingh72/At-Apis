@@ -1,26 +1,37 @@
 const express = require("express");
+const authMiddle = require("../../middlewares/auth.middleware.js");
 const app = express.Router();
+app.use(authMiddle)
 const Project = require("./project.model.js");
-
 app.get("/", async (req, res) => {
   const data = await Project.find();
   res.send(data);
 });
 
 app.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const data = await Project.findOne({ _id: id });
-  res.send(data);
+  try{
+    const id = req.params.id;
+    const data = await Project.findOne({ _id: id });
+    res.send({
+      status:true,
+      data:data
+    });
+  }
+  catch(e){
+    req.send({
+      status:false,
+      message : e.message
+    })
+  }
 });
 
 //post
 app.post("/", async (req, res) => {
-  const { projectName, projectDate } = req.body;
-  //   console.log(req.body);
+  const { projectName, projectDate , userID } = req.body;
   try {
-    const p = await Project.findOne({ projectName });
-    if (!p) {
-      const data = await Project.create({ projectName, projectDate });
+    const p = await Project.find({ projectName });
+    if (p.length == 0) {
+      const data = await Project.create({ projectName, projectDate , userID });
       const updated = await Project.find();
       res.status(200).send(updated);
     } else {
@@ -33,7 +44,6 @@ app.post("/", async (req, res) => {
 //delete
 app.delete("/:id", async (req, res) => {
   const id = req.params.id;
-
   const data = await Project.deleteOne({ _id: id });
   const updated = await Project.find();
   res.send(updated);
@@ -42,7 +52,6 @@ app.delete("/:id", async (req, res) => {
 //update
 app.patch("/:id", async (req, res) => {
   const id = req.params.id;
-
   const data = await Project.updateOne(
     { _id: id },
     {

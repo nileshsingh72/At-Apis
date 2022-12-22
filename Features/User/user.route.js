@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const userModel = require("./user.model");
 UserRoute.use(cors());
-
 UserRoute.get("/", async (req, res) => {
   res.send("welcome to UserRoute");
 });
