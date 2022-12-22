@@ -56,7 +56,7 @@ UserRoute.post("/login", async (req, res) => {
             username: user[0].username,
             email: user[0].email,
           },
-          process.env.SECRET_KEY,
+          'TOP_SECRET',
           {
             expiresIn: "7d",
           }
