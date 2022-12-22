@@ -3,11 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const ProjectRoute = require("./Features/Project/project.route.js");
 const BlogRoute = require("./Features/Blog/blog.route.js");
+const UserRoute = require("./Features/User/user.route.js");
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/project", ProjectRoute);
+app.use("/user", UserRoute);
 app.use("/blog", BlogRoute);
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 app.listen(8001, async () => {
   try {
     await connect();
