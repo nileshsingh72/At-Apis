@@ -19,7 +19,7 @@ UserRoute.post("/signup", async (req, res) => {
   if (email_users.length >= 1) {
     res.status(404).json({
       message: "EmailID already exists",
-      status: true,
+      status: false,
     });
   } else {
     try {
