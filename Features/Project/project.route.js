@@ -44,13 +44,16 @@ app.post("/", async (req, res) => {
     const p = await Project.find({ projectName });
     if (p.length == 0) {
       const data = await Project.create({ projectName, projectDate , userID });
-      const updated = await Project.find();
-      res.status(200).send(updated);
+      const updated = await Project.find({userID});
+      res.status(200).send({
+          status:true,
+          data : updated
+      });
     } else {
-      res.status(404).send({ message: "project already exists" });
+      res.status(404).send({status:false, message: "project already exists" });
     }
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).send({status:false, message: e.message});
   }
 });
 //delete
