@@ -59,13 +59,15 @@ app.post("/", async (req, res) => {
 //delete
 app.delete("/:id", async (req, res) => {
   const id = req.params.id;
+  const {userID} = req.body;
   const data = await Project.deleteOne({ _id: id });
-  const updated = await Project.find();
+  const updated = await Project.find({userID});
   res.send(updated);
 });
 
 //update
 app.patch("/:id", async (req, res) => {
+  const {userID} = req.body;
   const id = req.params.id;
   const data = await Project.updateOne(
     { _id: id },
@@ -76,7 +78,7 @@ app.patch("/:id", async (req, res) => {
       },
     }
   );
-  const updated = await Project.find();
+  const updated = await Project.find({userID});
   res.send(updated);
 });
 
