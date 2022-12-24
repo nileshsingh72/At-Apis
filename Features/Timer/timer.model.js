@@ -14,7 +14,7 @@ userID : {
   date: { type: String, required: true },
   timerStart:{type : String , required:true},
   timerEnd:{type : String , required:true},
-  totalTime : {type : String , required:true}
+  totalTime : {type  : Number , required:true}
 });
 
 const Timer = model("timer", TimerSchema);
