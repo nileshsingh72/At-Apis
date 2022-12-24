@@ -34,7 +34,7 @@ app.post('/:id', async(req,res)=>{
     const {id} = req.params;
     const userID = req.body.userID
     try{
-        let data = Timer.create({...req.body , projectID : id , userID})
+        let data = await Timer.create({...req.body , projectID : id , userID})
        
           return res.send({
               status:true,
