@@ -2,16 +2,17 @@ const jwt = require("jsonwebtoken");
 const authMiddle = (req,res,next)=>{
     try {
         const token = req.headers["token"];
-        const check = jwt.decode(token);
-        if(check){
-            req.body.userID = check.id
-            next();
-        }
-        else{
-            return res.status(401).json({
-                message:"invalid token"
-            })
-        }
+        jwt.verify(token , process.env.SECRET_KEY , (error ,check)=>{
+            if(error){ 
+                return res.status(401).json({
+                    message:"invalid token"
+                })
+            }
+            else{
+                req.body.userID = check.id
+                next();
+            }
+        });
         
     } catch (error) {
         return res.status(401).json({
