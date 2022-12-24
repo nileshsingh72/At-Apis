@@ -4,8 +4,20 @@ const app = express.Router();
 app.use(authMiddle)
 const Project = require("./project.model.js");
 app.get("/", async (req, res) => {
-  const data = await Project.find();
-  res.send(data);
+  const {userID} = req.body;
+    try{
+      const data = await Project.find({userID});
+      res.send({
+        status:true,
+        data
+      });
+    }
+    catch(e){
+      res.send({
+        status:false,
+        message:e.message
+      })
+    }
 });
 
 app.get("/:id", async (req, res) => {
