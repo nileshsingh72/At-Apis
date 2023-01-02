@@ -5,7 +5,7 @@ const ProjectRoute = require("./Features/Project/project.route.js");
 const BlogRoute = require("./Features/Blog/blog.route.js");
 const UserRoute = require("./Features/User/user.route.js");
 const TimerRoute = require("./Features/Timer/timer.route.js");
-const { transporter } = require("./mail.js");
+const transporter = require("./mail.js");
 
 const app = express();
 app.use(cors());
