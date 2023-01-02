@@ -5,6 +5,7 @@ const ProjectRoute = require("./Features/Project/project.route.js");
 const BlogRoute = require("./Features/Blog/blog.route.js");
 const UserRoute = require("./Features/User/user.route.js");
 const TimerRoute = require("./Features/Timer/timer.route.js");
+const { transporter } = require("./mail.js");
 
 const app = express();
 app.use(cors());
@@ -14,7 +15,28 @@ app.use("/user", UserRoute);
 app.use("/blog", BlogRoute);
 app.use("/timer", TimerRoute);
 
+app.post("/sendmail", async(req, res) => {
+  const { email, name, message } = req.body;
 
+  transporter.sendMail(
+    {
+      to: "faizanst077@gmail.com",
+      from: email,
+      subject: "Message from Portfolio",
+      html:`<div>
+      <h5>Hello my name is ${name}</h5><br />
+      <p>${message}</p>
+      </div>`
+    },
+    (err) => {
+      if (err) {
+        res.send({ status: false, message: err.message });
+      } else {
+        res.send({ status: true, message: "mail sended successfully !" });
+      }
+    }
+  );
+});
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
